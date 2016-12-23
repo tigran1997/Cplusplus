@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <map>
+#include <vector>
+#include <algorithm>
 using namespace std;
-
 
 int main(){
 
@@ -28,30 +30,38 @@ string segment;
 //cout<<string::npos;
 while(getline(div, segment, '/'))
 {
-    cout<<segment<<endl;
+  //  cout<<segment<<endl;
 }
 
 if(uri.find("?") != string::npos ){
-    cout<<uri.find("?");
+   // cout<<uri.find("?");
 }
 string vars = uri.substr(uri.find("?")+1 , uri.length() -  uri.find("?") );
-cout<<vars;
+//cout<<vars;
 
 stringstream vals(vars);
-string value;
-while(getline(vals, value, '&'))
+string getval;
+vector<string> vec;
+map<string , string> variables;
+while(getline(vals, getval, '&'))
 {
-    cout<<value<<endl;
+    vec.push_back(getval);
+    stringstream allval(getval);
+    string key;
+    string value;
+    getline(allval, key, '=');
+    getline(allval, value, '=');
+    variables.insert ( std::pair<string,string>(key, value) );
 }
 
+  std::map<string,string>::iterator it = variables.begin();
+
+for (it=variables.begin(); it!=variables.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
 
 
-
-
-
-
+//for_each(vec.begin() , vec.end(), keyval );
 
 
 //const char protocol_separator[] = ":0//";
-
 }
