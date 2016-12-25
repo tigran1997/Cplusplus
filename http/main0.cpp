@@ -4,12 +4,8 @@
 #include <map>
 #include <vector>
 #include <algorithm>
-#include <exception>
-#include <fstream>
-using namespace std;
 
-
-class http{
+class Url{
 
 private:
     std::string protocol_separator = "://";
@@ -24,12 +20,12 @@ private:
     std::map<std::string , std::string> variables;
     std::string variables_string;
 public :
-    http(std::string get_url){
+    Url(std::string get_url){
         url = get_url;
         configureProtocol();
         configureVaraible();
     }
-    http (){
+    Url (){
 
     }
 
@@ -46,7 +42,6 @@ public :
     }
     bool checkVarState(){
         if(uri.find("?") != std::string::npos ){
-            //cout<<uri.find("?");
             return true;
         }
     }
@@ -75,9 +70,10 @@ public :
     }
 
     std::string showvariables(){
-        std::map<std::string,std::string>::iterator it = variables.begin();
-        for (it=variables.begin(); it!=variables.end(); ++it)
-            variables_string.append(it->first + " => " + it->second +'\n' );
+        std::map<std::string,std::string>::iterator it_ = variables.begin();
+        variables_string.clear();
+        for (it_=variables.begin(); it_!=variables.end(); ++it_)
+            variables_string.append(it_->first + " => " + it_->second +'\n' );
         return variables_string;
     }
 
@@ -88,39 +84,45 @@ public :
         } else{
             return uri;
         }
+    }
 
-
-
+    std::string addVaraible(std::string ikey , std::string ivalue){
+        variables.insert (std::pair<std::string,std::string>(ikey, ivalue) );
+        url.append("&" + ikey + "=" + ivalue);
 
     }
-    friend ostream& operator<<(ostream&, http&);
+    std::string showUrl(){
+        return url;
+    }
+    friend std::ostream& operator<<(std::ostream&, Url&);
 
-	friend istream& operator >> (istream&, http&);
+	friend std::istream& operator >> (std::istream&, Url&);
 };
 
-std::istream& operator >> (istream& in, http& s)
+std::istream& operator >> (std::istream& in, Url& s)
 {
-
+    in>>s.url;
+    s.configureProtocol();
+    s.configureVaraible();
     return in;
 }
 
-std::ostream& operator<<(ostream& out, http& s)
+std::ostream& operator<<(std::ostream& out, Url& s)
 {
-    out << s.url<<endl;
+    out << s.url<<std::endl;
 }
 
 
 
 
 int main(){
-//htpp h;
-//cin >> h;
-http a("wss://example.com/aa/hh/cc/bb?a&rr=66");
-cin>>a;
-cout<<a;
-std::cout<<a.showProtocol();
-//a.configureVaraible();
-//cout << a;
-std::cout<<a.showvariables();
-std::cout<<a.showDomein();
+Url a("wss://example.com/aa/hh/cc/bb?a&rr=66");
+
+std::cout<<a.showProtocol()<<std::endl;
+std::cout << a;
+std::cout<<a.showvariables()<<std::endl;
+std::cout<<a.showDomein()<<std::endl;
+a.addVaraible("bba" , "66");
+std::cout<<a.showUrl()<<std::endl;
+std::cout<<a.showvariables()<<std::endl;
 }
