@@ -64,7 +64,7 @@ public :
                 }
 
         } else{
-            //return false;
+
         }
     }
 
@@ -88,6 +88,7 @@ public :
     std::string addVaraible(std::string ikey , std::string ivalue){
         variables.insert (std::pair<std::string,std::string>(ikey, ivalue) );
         url.append("&" + ikey + "=" + ivalue);
+        return url;
 
     }
     std::string showUrl(){
@@ -108,5 +109,5 @@ std::istream& operator >> (std::istream& in, Url& s)
 
 std::ostream& operator<<(std::ostream& out, Url& s)
 {
-    out << s.url<<std::endl;
+    out << s.url;
 }
