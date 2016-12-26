@@ -4,13 +4,15 @@
 #include <vector>
 #include <algorithm>
 
+    const std::string protocol_separator = "://";
+    const std::string variable_sseparator = "?";
+    const std::string variable_separator = "&";
+    const std::string equal_separator = "=";
+
 class Url{
 
 private:
-    std::string protocol_separator = "://";
-    std::string variable_sseparator = "?";
-    std::string variable_separator = "&";
-    std::string equal_separator = "=";
+
 
     std::string url;
     std::string protocol;

@@ -10,4 +10,5 @@ std::cout<<a.showDomein()<<std::endl;
 a.addVaraible("bba" , "66");
 std::cout<<a.showUrl()<<std::endl;
 std::cout<<a.showvariables()<<std::endl;
+
 }
